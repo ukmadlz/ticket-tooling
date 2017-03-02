@@ -1,0 +1,37 @@
+{
+  "name": "ticket-tooling",
+  "version": "0.0.1",
+  "description": "Application to handle auto subscription of people from ti.to to MailChimp and check-in app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ukmadlz/ticket-tooling.git"
+  },
+  "keywords": [
+    "Ti.to",
+    "mailchimp",
+    "checkin"
+  ],
+  "author": "Mike Elsmore <mike@elsmore.me>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ukmadlz/ticket-tooling/issues"
+  },
+  "homepage": "https://github.com/ukmadlz/ticket-tooling#readme",
+  "dependencies": {
+    "boom": "^4.2.0",
+    "cfenv": "^1.0.4",
+    "dotenv": "^4.0.0",
+    "hapi": "^16.1.0",
+    "mailchimp-api-v3": "^1.7.0",
+    "md5": "^2.2.1",
+    "subtext": "^4.3.0"
+  },
+  "engines": {
+    "node": ">=7"
+  }
+}
