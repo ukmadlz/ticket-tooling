@@ -5,13 +5,16 @@
   "keywords": ["node", "hapi", "mailchimp", "tito"],
   "env": {
     "TITO_WEBHOOK_SECURITY_TOKEN": {
-      "description": "Ti.to signature provided when creating webhooks"
+      "description": "Ti.to signature provided when creating webhooks",
+      "generator": "secret"
     },
     "MAILCHIMP_API_KEY": {
-      "description": "API key for accessing MailChimp"
+      "description": "API key for accessing MailChimp",
+      "generator": "secret"
     },
     "MAILCHIMP_LIST_ID": {
-      "description": "The List ID associated with the MailChimp list"
+      "description": "The List ID associated with the MailChimp list",
+      "generator": "secret"
     },
   }
 }
