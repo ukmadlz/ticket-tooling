@@ -1,0 +1,17 @@
+{
+  "name": "Ticket Tooling",
+  "description": "Application to handle auto subscription of people from ti.to to MailChimp and check-in app",
+  "repository": "https://github.com/ukmadlz/ticket-tooling",
+  "keywords": ["node", "hapi", "mailchimp", "tito"],
+  "env": {
+    "TITO_WEBHOOK_SECURITY_TOKEN": {
+      "description": "Ti.to signature provided when creating webhooks"
+    },
+    "MAILCHIMP_API_KEY": {
+      "description": "API key for accessing MailChimp"
+    },
+    "MAILCHIMP_LIST_ID": {
+      "description": "The List ID associated with the MailChimp list"
+    },
+  }
+}

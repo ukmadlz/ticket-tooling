@@ -17,3 +17,8 @@ MAILCHIMP_API_KEY= // API key for accessing MailChimp
 MAILCHIMP_LIST_ID= // The List ID associated with the MailChimp list
 ```
 Finally, to execute just `npm start`
+
+### Remote
+
+You can quickly deploy to
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
