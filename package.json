@@ -4,7 +4,6 @@
   "description": "Application to handle auto subscription of people from ti.to to MailChimp and check-in app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
   "repository": {
@@ -32,6 +31,6 @@
     "subtext": "^4.3.0"
   },
   "engines": {
-    "node": ">=7"
+    "node": "7.*"
   }
 }

@@ -3,6 +3,7 @@
   "description": "Application to handle auto subscription of people from ti.to to MailChimp and check-in app",
   "repository": "https://github.com/ukmadlz/ticket-tooling",
   "keywords": ["node", "hapi", "mailchimp", "tito"],
+  "image": "heroku/nodejs",
   "env": {
     "TITO_WEBHOOK_SECURITY_TOKEN": {
       "description": "Ti.to signature provided when creating webhooks",
