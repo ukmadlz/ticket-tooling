@@ -45,44 +45,45 @@ server.route({
 
       // Traverse all tickets
       parsedPayload.tickets.forEach((ticket) => {
-        console.log(ticket);
-        let memberId = MD5(ticket.email);
-        let subscriberbody = {
-          email_address: ticket.email,
-          status: "subscribed",
-          merge_fields: {
-            "FNAME": ticket.first_name,
-            "LNAME": ticket.last_name
-          }
-        };
-        mailchimp.get({
-          path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId
-        })
-        .then((result) => {
-          mailchimp.put({
-            path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId,
-            body: subscriberbody
+        if(ticket.email) {
+          let memberId = MD5(ticket.email);
+          let subscriberbody = {
+            email_address: ticket.email,
+            status: "subscribed",
+            merge_fields: {
+              "FNAME": ticket.first_name,
+              "LNAME": ticket.last_name
+            }
+          };
+          mailchimp.get({
+            path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId
           })
-          .then(function (result) {
-            console.log('%s updated in list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
+          .then((result) => {
+            mailchimp.put({
+              path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId,
+              body: subscriberbody
+            })
+            .then(function (result) {
+              console.log('%s updated in list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
+            })
+            .catch(function (err) {
+              console.error(err);
+            });
           })
-          .catch(function (err) {
-            console.error(err);
+          .catch((err) => {
+            mailchimp.post({
+              path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/',
+              body: subscriberbody
+            })
+            .then(function (result) {
+              console.log('%s added to list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
+            })
+            .catch(function (err) {
+              console.error(err);
+            });
           });
-        })
-        .catch((err) => {
-          mailchimp.post({
-            path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/',
-            body: subscriberbody
-          })
-          .then(function (result) {
-            console.log('%s added to list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
-          })
-          .catch(function (err) {
-            console.error(err);
-          });
-        });
-      })
+        }
+      });
 
       // Return something other than fail
       return reply(parsedPayload || {});
