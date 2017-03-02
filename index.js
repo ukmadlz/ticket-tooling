@@ -18,8 +18,7 @@ const appEnv = Cfenv.getAppEnv();
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-  port: process.env.PORT || appEnv.port,
-  host: appEnv.bind
+  port: process.env.PORT || appEnv.port
 });
 
 // Handle inbound tito tickets
