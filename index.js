@@ -46,7 +46,7 @@ server.route({
       // Traverse all tickets
       parsedPayload.tickets.forEach((ticket) => {
         if(ticket.email) {
-          addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID);
+          addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID, mailchimp);
         }
       });
 
@@ -66,7 +66,7 @@ const validateTitoSignature = (titoSignature, data) => {
 }
 
 // Add email to mailchimp list
-const addEmailToMailChimp = (ticket, listId) => {
+const addEmailToMailChimp = (ticket, listId, mailchimp) => {
   let memberId = MD5(ticket.email);
   let subscriberbody = {
     email_address: ticket.email,
