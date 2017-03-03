@@ -46,33 +46,7 @@ server.route({
       // Traverse all tickets
       parsedPayload.tickets.forEach((ticket) => {
         if(ticket.email) {
-          let memberId = MD5(ticket.email);
-          let subscriberbody = {
-            email_address: ticket.email,
-            status: "subscribed",
-            merge_fields: {
-              "FNAME": ticket.first_name,
-              "LNAME": ticket.last_name
-            }
-          };
-          mailchimp.get({
-            path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId
-          })
-          .then((result) => {
-            console.log('%s already in list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
-          })
-          .catch((err) => {
-            mailchimp.post({
-              path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/',
-              body: subscriberbody
-            })
-            .then(function (result) {
-              console.log('%s added to list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
-            })
-            .catch(function (err) {
-              console.error(err);
-            });
-          });
+          addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID);
         }
       });
 
@@ -82,12 +56,44 @@ server.route({
   }
 });
 
+// Validate WebHook
 const validateTitoSignature = (titoSignature, data) => {
   let hmacSig = Crypto
     .createHmac('sha256', process.env.TITO_WEBHOOK_SECURITY_TOKEN)
     .update(data)
     .digest('base64');
   return titoSignature === hmacSig;
+}
+
+// Add email to mailchimp list
+const addEmailToMailChimp = (ticket, listId) => {
+  let memberId = MD5(ticket.email);
+  let subscriberbody = {
+    email_address: ticket.email,
+    status: "subscribed",
+    merge_fields: {
+      "FNAME": ticket.first_name,
+      "LNAME": ticket.last_name
+    }
+  };
+  mailchimp.get({
+    path : '/lists/' + listId + '/members/' + memberId
+  })
+  .then((result) => {
+    console.log('%s already in list ' + listId, ticket.email)
+  })
+  .catch((err) => {
+    mailchimp.post({
+      path : '/lists/' + listId + '/members/',
+      body: subscriberbody
+    })
+    .then(function (result) {
+      console.log('%s added to list ' + listId, ticket.email)
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  });
 }
 
 // Start the server
