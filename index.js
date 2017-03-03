@@ -59,16 +59,7 @@ server.route({
             path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId
           })
           .then((result) => {
-            mailchimp.put({
-              path : '/lists/' + process.env.MAILCHIMP_LIST_ID + '/members/' + memberId,
-              body: subscriberbody
-            })
-            .then(function (result) {
-              console.log('%s updated in list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
-            })
-            .catch(function (err) {
-              console.error(err);
-            });
+            console.log('%s already in list ' + process.env.MAILCHIMP_LIST_ID, ticket.email)
           })
           .catch((err) => {
             mailchimp.post({
