@@ -106,7 +106,7 @@ const addEmailToMailChimp = (ticket, listId) => {
 // Send email an invite to Slack
 const addEmailToSlack = (ticket) => {
   Request.post({
-    url: 'https://'+ process.env.SLACK_TEAM + '/api/users.admin.invite',
+    url: 'https://'+ process.env.SLACK_TEAM + '.slack.com/api/users.admin.invite',
     form: {
       email: ticket.email,
       token: process.env.SLACK_API_TOKEN,
@@ -118,7 +118,7 @@ const addEmailToSlack = (ticket) => {
       body = JSON.parse(body);
     }
     if (body.ok) {
-      console.log('%s invited to Slack ' + process.env.process.env.SLACK_TEAM, ticket.email);
+      console.log('%s invited to Slack ' + process.env.SLACK_TEAM, ticket.email);
     }
   });
 }
