@@ -120,7 +120,7 @@ const addEmailToSlack = (ticket) {
     if (err) { return res.send('Error:' + err); }
     body = JSON.parse(body);
     if (body.ok) {
-      console.log('%s invited to Slack ' + process.env.SLACK_URL, ticket.email);
+      console.log('%s invited to Slack ' + process.env.process.env.SLACK_TEAM, ticket.email);
     }
   });
 }
