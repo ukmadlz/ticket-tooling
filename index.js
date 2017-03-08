@@ -47,7 +47,7 @@ server.route({
         if(ticket.email) {
           // Process the unique sub to mailchimp
           if(process.env.MAILCHIMP_API_KEY) {
-            addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID, mailchimp);
+            addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID);
           }
           // Process the invite to slack
           if(process.env.SLACK_API_TOKEN) {
