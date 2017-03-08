@@ -17,5 +17,13 @@
       "description": "The List ID associated with the MailChimp list",
       "generator": "secret"
     },
+    "SLACK_API_TOKEN": {
+      "description": "API key for accessing Slack",
+      "generator": "secret"
+    },
+    "SLACK_TEAM": {
+      "description": "The subdomain used for the Slack team",
+      "generator": "secret"
+    }
   }
 }

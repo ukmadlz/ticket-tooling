@@ -11,6 +11,7 @@ const Crypto = require('crypto');
 const Subtext = require('subtext');
 const MailChimp = require('mailchimp-api-v3');
 const MD5 = require('md5');
+const Request = require('request');
 
 // Settings
 const appEnv = Cfenv.getAppEnv();
@@ -40,13 +41,23 @@ server.route({
       // parse the payload buffer
       var parsedPayload = JSON.parse(request.payload.toString());
 
-      // Add each ticket with a valid email to MailChimp
-      const mailchimp = new MailChimp(process.env.MAILCHIMP_API_KEY);
+      if(process.env.MAILCHIMP_API_KEY) {
+        // Add each ticket with a valid email to MailChimp
+        const mailchimp = new MailChimp(process.env.MAILCHIMP_API_KEY);
+      }
 
       // Traverse all tickets
       parsedPayload.tickets.forEach((ticket) => {
+        // Only process if the ticket has an associated email
         if(ticket.email) {
-          addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID, mailchimp);
+          // Process the unique sub to mailchimp
+          if(process.env.MAILCHIMP_API_KEY) {
+            addEmailToMailChimp(ticket, process.env.MAILCHIMP_LIST_ID, mailchimp);
+          }
+          // Process the invite to slack
+          if(process.env.SLACK_API_TOKEN) {
+            addEmailToSlack(ticket);
+          }
         }
       });
 
@@ -80,7 +91,7 @@ const addEmailToMailChimp = (ticket, listId, mailchimp) => {
     path : '/lists/' + listId + '/members/' + memberId
   })
   .then((result) => {
-    console.log('%s already in list ' + listId, ticket.email)
+    console.log('%s already in list ' + listId, ticket.email);
   })
   .catch((err) => {
     mailchimp.post({
@@ -88,11 +99,29 @@ const addEmailToMailChimp = (ticket, listId, mailchimp) => {
       body: subscriberbody
     })
     .then(function (result) {
-      console.log('%s added to list ' + listId, ticket.email)
+      console.log('%s added to list ' + listId, ticket.email);
     })
     .catch(function (err) {
       console.error(err);
     });
+  });
+}
+
+// Send email an invite to Slack
+const addEmailToSlack = (ticket) {
+  Request.post({
+    url: 'https://'+ process.env.SLACK_TEAM + '/api/users.admin.invite',
+    form: {
+      email: ticket.email,
+      token: process.env.SLACK_API_TOKEN,
+      set_active: true
+    }
+  }, function(err, httpResponse, body) {
+    if (err) { return res.send('Error:' + err); }
+    body = JSON.parse(body);
+    if (body.ok) {
+      console.log('%s invited to Slack ' + process.env.SLACK_URL, ticket.email);
+    }
   });
 }
 
