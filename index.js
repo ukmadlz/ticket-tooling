@@ -41,11 +41,6 @@ server.route({
       // parse the payload buffer
       var parsedPayload = JSON.parse(request.payload.toString());
 
-      if(process.env.MAILCHIMP_API_KEY) {
-        // Add each ticket with a valid email to MailChimp
-        const mailchimp = new MailChimp(process.env.MAILCHIMP_API_KEY);
-      }
-
       // Traverse all tickets
       parsedPayload.tickets.forEach((ticket) => {
         // Only process if the ticket has an associated email
@@ -77,7 +72,8 @@ const validateTitoSignature = (titoSignature, data) => {
 }
 
 // Add email to mailchimp list
-const addEmailToMailChimp = (ticket, listId, mailchimp) => {
+const addEmailToMailChimp = (ticket, listId) => {
+  const mailchimp = new MailChimp(process.env.MAILCHIMP_API_KEY);
   let memberId = MD5(ticket.email);
   let subscriberbody = {
     email_address: ticket.email,
