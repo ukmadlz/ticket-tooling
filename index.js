@@ -114,7 +114,9 @@ const addEmailToSlack = (ticket) => {
     }
   }, function(err, httpResponse, body) {
     if (err) { console.error('Error: %s', err); }
-    body = JSON.parse(body);
+    if(typeof body !== 'object') {
+      body = JSON.parse(body);
+    }
     if (body.ok) {
       console.log('%s invited to Slack ' + process.env.process.env.SLACK_TEAM, ticket.email);
     }
