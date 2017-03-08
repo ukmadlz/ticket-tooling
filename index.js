@@ -108,7 +108,7 @@ const addEmailToMailChimp = (ticket, listId, mailchimp) => {
 }
 
 // Send email an invite to Slack
-const addEmailToSlack = (ticket) {
+const addEmailToSlack = (ticket) => {
   Request.post({
     url: 'https://'+ process.env.SLACK_TEAM + '/api/users.admin.invite',
     form: {
