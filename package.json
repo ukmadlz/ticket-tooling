@@ -4,7 +4,9 @@
   "description": "Application to handle auto subscription of people from ti.to to MailChimp and check-in app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -29,9 +31,11 @@
     "hapi": "^16.1.0",
     "mailchimp-api-v3": "^1.7.0",
     "md5": "^2.2.1",
-    "subtext": "^4.3.0"
+    "subtext": "^4.3.0",
+    "snyk": "^1.316.1"
   },
   "engines": {
     "node": "7.*"
-  }
+  },
+  "snyk": true
 }
