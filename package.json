@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/ukmadlz/ticket-tooling#readme",
   "dependencies": {
-    "@slack/client": "^3.8.1",
+    "@slack/client": "^4.0.0",
     "boom": "^4.2.0",
     "cfenv": "^1.0.4",
     "dotenv": "^4.0.0",
